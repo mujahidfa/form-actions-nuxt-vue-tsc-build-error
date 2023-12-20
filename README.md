@@ -1,23 +1,60 @@
-# Nuxt 3 Minimal Starter
+# Reproduction for @hebilicious/form-actions-nuxt v0.3.0 vue-tsc error when type-checking is enabled at build time
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+`ERROR(vue-tsc)  ';' expected.` and ` ERROR(vue-tsc)  Expression expected.` in `.nuxt/types/loader-types.d.ts`.
+
+To reproduce this error, install the following packages in a fresh Nuxt project:
+
+```bash
+npm install -D vue-tsc typescript
+npm install @hebilicious/form-actions-nuxt
+```
+
+enable type-checking at build time:
+
+```ts
+// In nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@hebilicious/form-actions-nuxt'],
+  typescript: {
+    // Enable type-checking at build time
+    typeCheck: true,
+  },
+});
+```
+
+and run `npm run dev`. The following error surfaces:
+
+```
+ ERROR                                                                                                      5:13:40 PM
+ ERROR(vue-tsc)  ';' expected.
+ FILE  /home/mujahidfa/form-actions-nuxt-vue-tsc-build-error/.nuxt/types/loader-types.d.ts:18:16
+
+    16 |           type LoaderUrl = 
+    17 |
+  > 18 |           type LoaderName = 
+       |                ^^^^^^^^^^
+    19 |
+    20 |           
+    21 |
+
+ ERROR(vue-tsc)  Expression expected.
+ FILE  /home/mujahidfa/form-actions-nuxt-vue-tsc-build-error/.nuxt/types/loader-types.d.ts:22:11
+
+    20 |           
+    21 |
+  > 22 |           export interface Loaders {
+       |           ^^^^^^
+    23 |             
+    24 |           }
+    25 |
+
+[vue-tsc] Found 2 errors. Watching for file changes.
+```
 
 ## Setup
 
-Make sure to install the dependencies:
-
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
 ## Development Server
@@ -25,17 +62,7 @@ bun install
 Start the development server on `http://localhost:3000`:
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
 ## Production
@@ -43,33 +70,13 @@ bun run dev
 Build the application for production:
 
 ```bash
-# npm
 npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
 Locally preview production build:
 
 ```bash
-# npm
 npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
